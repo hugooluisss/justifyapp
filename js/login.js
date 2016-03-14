@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	$("div[role=alert]").hide();
 	$("#frmLogin").validate({
 		debug: true,
 		rules: {
@@ -28,8 +29,10 @@ $(document).ready(function(){
 					
 				},
 				after: function(data){
-					if (data.band == false)
-						alert("Nombre de usuario y contraseña inválidos");
+					if (data.band == false){
+						$("div[role=alert]").html("Nombre de usuario y contraseña inválidos").show(600);
+						$("div[role=alert]").delay(5000).hide(600);
+					}
 				}
 			});
         }

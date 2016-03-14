@@ -14,10 +14,11 @@
 		<link rel="stylesheet/less" type="text/css" href="css/style.less" />
 	</head>
 	<body>
+		<nav class="navbar navbar-light bg-faded">
+			<a class="navbar-brand" href="#">Justify</a>
+		</nav>
 		<div class="container">
-			<div class="row flex-child">
-				<div class="col-xs-12 text-center"><h1>Justify</h1></div>
-			</div>
+			<div class="alert alert-warning" role="alert"></div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
 					<form action="#" id="frmLogin" method="post" onsubmit="javascript: return false;">
@@ -25,7 +26,7 @@
 							<img src="images/login.png" class="img-rounded"/>
 						</div>
 						<div class="form-group has-feedback">
-							<input type="text" class="form-control" placeholder="email" id="txtUsuario" name="txtUsuario">
+							<input type="text" class="form-control" placeholder="Correo electrónico" id="txtUsuario" name="txtUsuario" autocomplete="no">
 							<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 						</div>
 						<div class="form-group has-feedback">
@@ -33,26 +34,24 @@
 							<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 						</div>
 						<div class="row">
-							<div class="col-xs-6 text-left">
-								<a href="registro.html" class="btn btn-success btn-raised">Registrarme</a>
-							</div>
-							<div class="col-xs-6 text-right">
-								<button type="submit" class="btn btn-danger btn-raised">Iniciar</button>
-							</div>
-						</div>
-						<div class="row">
 							<div class="col-xs-12">
-								
+								<button type="submit" class="btn btn-success btn-raised btn-block">Iniciar</button>
 							</div>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
-		
+		<footer>
+			<div class="navbar navbar-fixed-bottom" role="navigation">
+				<div class="container">
+					<a href="registro.html" class="btn-link">¿Aun no eres usuario? Regístrate con nosotros</a>
+				</div>
+			</div>
+		</footer>
 		
 		<script type="text/javascript" src="cordova.js"></script>
-	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	    <script src="librerias/jquery.js"></script>
 	    <script src="librerias/boostrap/js/bootstrap.min.js"></script>
 	    
 	    <script src="librerias/md/js/material.js"></script>
@@ -63,7 +62,7 @@
 	    <script src="js/modelo/usuario.class.js"></script>
 	    <script src="js/login.js"></script>
 	    
-	    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.3.1/less.min.js" type="text/javascript"></script>
+	    <script src="librerias/less.min.js" type="text/javascript"></script>
 	    
 	    <script type="text/javascript">
 			$.material.init();
