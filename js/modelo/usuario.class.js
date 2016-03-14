@@ -2,7 +2,7 @@ TUsuario = function(){
 	var self = this;
 	
 	this.setPass = function(usuario, pass, fn){
-		$.post('?mod=cusuarios&action=setPass', {
+		$.post(server + 'index.php?mod=cusuarios&action=setPass', {
 			"usuario": usuario,
 			"pass": pass
 		}, function(data){
@@ -15,7 +15,7 @@ TUsuario = function(){
 	};
 	
 	this.del = function(usuario, fn){
-		$.post('?mod=cusuarios&action=del', {
+		$.post(server + 'index.php?mod=cusuarios&action=del', {
 			"usuario": usuario,
 		}, function(data){
 			if (fn.after != undefined)

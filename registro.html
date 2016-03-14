@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<link href="librerias/boostrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="librerias/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		
 		<link href="librerias/md/css/bootstrap-material-design.css" rel="stylesheet">
@@ -14,24 +14,96 @@
 		<link rel="stylesheet/less" type="text/css" href="css/style.less" />
 	</head>
 	<body>
+		<nav class="navbar navbar-fixed-top">
+			<a class="navbar-brand" href="#">Justify <small class="text-muted">- Registro</small></a>
+		</nav>
+		<ul class="nav nav-tabs">
+			<li class="active text-center" style="width: 50%;"><a data-toggle="tab" href="#"><span class="glyphicon glyphicon-user"></span>  Usuario</a></li>
+			<li class="text-center" style="width: 50%;"><a data-toggle="tab" href="#abogados"><span class="glyphicon glyphicon-briefcase"></span> Abogado</a></li>
+		</ul>
 		<div class="container">
-			
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="tab-content">
+						<div id="abogados" class="tab-pane fade in">
+							<form role="form" id="frmAdd" class="form-horizontal" onsubmit="javascript: return false;">
+								<div class="box">
+									<div class="box-body">
+										<div class="form-group row">
+											<label for="txtNombre" class="col-sm-2 form-control-label">Nombre</label>
+											<div class="col-xs-12 col-sm-10">
+												<input type="text" id="txtNombre" name="txtNombre" autofocus="true" class="form-control" autocomplete="false" />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label for="selSexo" class="col-sm-2 control-label">Sexo</label>
+											<div class="col-md-5 col-xs-12">
+												<select id="selSexo" name="selSexo" class="form-control">
+													<option value="H">Hombre
+													<option value="M">Mujer
+												</select>
+											</div>
+										</div>
+										<hr />
+										<div class="form-group">
+											<label for="txtEmail" class="col-sm-2 control-label">Email</label>
+											<div class="col-sm-10">
+												<input type="text" id="txtEmail" name="txtEmail" autofocus="true" class="form-control" autocomplete="false" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="txtTelefono" class="col-sm-2 control-label">Teléfono local</label>
+											<div class="col-sm-8">
+												<input type="text" id="txtTelefono" name="txtTelefono" autofocus="true" class="form-control" autocomplete="false" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="txtCelular" class="col-sm-2 control-label">Celular</label>
+											<div class="col-sm-3">
+												<input type="text" id="txtCelular" name="txtCelular" autofocus="true" class="form-control" autocomplete="false" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="txtLocalidad" class="col-sm-2 control-label">Localización</label>
+											<div class="col-sm-10">
+												<input type="text" id="txtLocalidad" name="txtLocalidad" anterior="" autofocus="true" class="form-control" autocomplete="false" />
+											</div>
+										</div>
+									</div>
+									<div class="box-footer">
+										<div class="col-xs-6">
+											<button type="submit" class="btn btn-success btn-raised btn-block">Guardar</button>
+										</div>
+										<div class="col-xs-6">
+											<a href="index.html" class="btn btn-danger btn-raised btn-block">Cancelar</a>
+										</div>
+										<input type="hidden" id="id"/>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		
-		
 		<script type="text/javascript" src="cordova.js"></script>
-	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	    <script src="librerias/boostrap/js/bootstrap.min.js"></script>
+	    <script src="librerias/jquery.js"></script>
+	    <script src="librerias/bootstrap/js/bootstrap.min.js"></script>
 	    
 	    <script src="librerias/md/js/material.js"></script>
 	    <script src="librerias/md/js/ripples.min.js"></script>
 	    
+	    <!-- jQuery UI 1.11.4 -->
+		<script src="librerias/plugins/jQueryUI/jquery-ui.min.js"></script>
+		<link rel="stylesheet" href="librerias/plugins/jQueryUI/jquery-ui.css">
+	    
 	    <script type="text/javascript" src="librerias/plugins/validate/validate.js"></script>
 	    <script src="js/aplicacion.js"></script>
-	    <script src="js/modelo/usuario.class.js"></script>
-	    <script src="js/login.js"></script>
+	    <script src="js/modelo/abogado.class.js"></script>
+	    <script src="js/registro.js"></script>
 	    
-	    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.3.1/less.min.js" type="text/javascript"></script>
+	    <script src="librerias/less.min.js" type="text/javascript"></script>
 	    
 	    <script type="text/javascript">
 			$.material.init();
