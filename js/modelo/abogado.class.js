@@ -1,12 +1,11 @@
 function TAbogado(){
-	this.add = function(id, nombre, sexo, localidad, email, telefono, celular, fn){
+	this.add = function(id, nombre, sexo, email, telefono, celular, fn){
 		if (fn.before != undefined) fn.before();
 		
 		$.post(server + 'index.php?mod=cusuarios&action=add', {
 			"id": id,
 			"nombre": nombre,
 			"sexo": sexo,
-			"localidad": localidad,
 			"email": email,
 			"telefono": telefono,
 			"celular": celular,

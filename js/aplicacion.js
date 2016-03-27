@@ -1,1 +1,1 @@
-var server = 'http://localhost/justify/';
+var server = 'http://192.168.0.111/justify/';
