@@ -4,7 +4,7 @@ $(document).ready(function(){
 	if (usuario.isSesionIniciada()){
 		switch(usuario.isSesionIniciada()){
 			case '2':
-				console.log("Eres abogado");
+				getPanelAbogado();
 			break;
 			case '3':
 				getPanelCliente();
