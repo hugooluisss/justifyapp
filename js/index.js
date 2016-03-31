@@ -3,15 +3,17 @@ $(document).ready(function(){
 	
 	if (usuario.isSesionIniciada()){
 		switch(usuario.isSesionIniciada()){
-			case 2:
+			case '2':
 				console.log("Eres abogado");
 			break;
-			case 3:
-				console.log("Eres cliente");
+			case '3':
+				getPanelCliente();
 			break;
 			default:
+				alert("No sabemos que eres " + usuario.isSesionIniciada());
 		}
 	}else{
 		loadLogin();
 	}
 });
+

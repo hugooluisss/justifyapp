@@ -1,6 +1,8 @@
 function loadLogin(){
 	$.get("vistas/login.html", function(resp){
 		$("#modulo").html(resp);
+		
+		$("#txtUsuario").focus();
 			
 		$("div[role=alert]").hide();
 		$("#frmLogin").validate({
@@ -35,6 +37,13 @@ function loadLogin(){
 						if (data.band == false){
 							$("div[role=alert]").html("Nombre de usuario y contraseña inválidos").show(600);
 							$("div[role=alert]").delay(5000).hide(600);
+						}else{
+							//Hay que verificar el perfil de usuario
+							if (data.datos.tipo == "1"){
+								$("div[role=alert]").html("El rol de administrador no es válido en esta versión del sistema").show(600);
+								$("div[role=alert]").delay(5000).hide(600);
+							}else
+								location.reload(true);
 						}
 					}
 				});

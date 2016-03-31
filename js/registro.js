@@ -1,8 +1,16 @@
 function panelRegistro(){
 	$.get("vistas/registro.html", function(resp){
 		$("#modulo").html(resp);
+		$("[data-mask]").inputmask();
+
+		$("#txtEmail").focus();
 		
-		$("#abogados #frmAdd").validate({
+		$("#btnReset").click(function(){
+			if (confirm("¿Seguro?"))
+				location.reload(true);
+		});
+		
+		$("#frmAdd").validate({
 			debug: false,
 			errorElement: 'div',
 			rules: {
@@ -20,18 +28,7 @@ function panelRegistro(){
 						}
 					}
 				},
-				txtTelefono: {
-					required: true,
-					digits: true,
-					minlength: 10,
-					maxlength: 10
-				},
-				txtCelular: {
-					required: true,
-					digits: true,
-					minlength: 10,
-					maxlength: 10
-				}
+				txtPass: "required"
 			},
 			wrapper: 'span', 
 			messages: {
@@ -41,23 +38,12 @@ function panelRegistro(){
 					email: "Escribe un correo electrónico válido",
 					remote: "Este email ya corresponde a un usuario registrado"
 				},
-				txtTelefono: {
-					required: "Escribe un número telefónico de contacto",
-					minlength: "Debe de ser de 9 números",
-					maxlength: "Debe de ser de 9 números",
-					digits: "Solo números"
-				},
-				txtCelular: {
-					required: "Escribe un número de celular para las emergencias",
-					minlength: "Debe de ser de 9 números",
-					maxlength: "Debe de ser de 9 números",
-					digits: "Solo números"
-				}
+				txtPass: "Escribe una contraseña"
 			},
 			submitHandler: function(form){
-				var obj = new TAbogado;
+				var obj = new TUsuario;
 				
-				obj.add($("#id").val(), $("#txtNombre").val(), $("#selSexo").val(), $("#txtEmail").val(), $("#txtTelefono").val(), $("#txtCelular").val(), {
+				obj.add($("#id").val(), $("#txtNombre").val(), $("#txtEmail").val(), $("#selSexo").val(), $("#selTipo").val(), {
 					before: function(){
 						
 					},
@@ -65,7 +51,17 @@ function panelRegistro(){
 						if (result.band != true)
 							alert("Ocurrió un error al guardar los datos");
 						else{
-							$("#abogados #frmAdd").get(0).reset();
+							$("#id").val(result.id);
+							
+							obj.setPass(result.id, $("#txtPass").val(), {
+								after: function(resp){
+									if (resp.band){
+										alert("Su registro ha sido completado");
+										location.reload(true);
+									}else
+										alert("Ocurrió un problema al registrar sus datos");
+								}
+							});
 						}
 						
 					}
