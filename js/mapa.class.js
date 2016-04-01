@@ -26,7 +26,7 @@ TMapa = function(){
 	
 	        var mapOptions = {
 	            center: latLong,
-	            zoom: 13,
+	            zoom: 11,
 	            mapTypeId: google.maps.MapTypeId.ROADMAP
 	        };
 	
@@ -45,5 +45,22 @@ TMapa = function(){
 	    if(fn.after != undefined)
 			fn.after();
 	}
+	
+	this.getDireccion = function(latitud, longitud, fn){
+		if (fn.before != undefined) fn.before();
+		
+		if (self.geocoder === undefined)
+			self.geocoder = new google.maps.Geocoder;
+		
+		self.geocoder.geocode({'location': {lat: latitud, lng: longitud}}, function(results, status){
+			if (status === google.maps.GeocoderStatus.OK) {
+				console.log("Dirección encontrada: " + results[1].formatted_address);
+				if (fn.ok !== undefined) fn.ok(results);
+			}else
+				if (fn.error !== undefined) fn.error();
+				
+			if (fn.after != undefined) fn.after(results);
+		});
+	};
 }
 

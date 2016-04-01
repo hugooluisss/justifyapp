@@ -96,4 +96,25 @@ TUsuario = function(){
 			
 		return data.nombre;
 	}
+	
+	this.getIdentificador = function(){
+		var data = JSON.parse(this.sesion);
+			
+		return data.identificador;
+	}
+	
+	this.sendMensaje = function(abogado, cliente, mensaje){
+		if (fn.before != undefined) fn.before();
+		
+		$.post(server + 'index.php?mod=clogin&action=login', {
+			"abogado": abogado,
+			"cliente": cliente,
+			"mensaje": mensaje
+		}, function(result){
+			if (result.band == false)
+				console.log("No se pudo guardar el mensaje");
+				
+			if (fn.after != undefined) fn.after(result);
+		}, "json");
+	}
 };
