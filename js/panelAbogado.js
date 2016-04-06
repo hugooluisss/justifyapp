@@ -25,6 +25,11 @@ function getPanelAbogado(){
 			getOficinas();
 		});
 		
+		$("#menuPrincipal .miCuenta").click(function(){
+			$("div[role=alert]").html("Espera un momento...").show(600);
+			getPanelMiCuentaAbogado();
+		});
+		
 		getIndex();
 	});
 	
@@ -86,7 +91,7 @@ function getPanelAbogado(){
 					
 					$.each(lista, function(){
 						var el = this;
-						console.log(el.telefono);
+						console.log(el.encargado);
 						var tr = $("<tr />").append(
 							$("<td />", {
 								text: el.telefono
@@ -100,7 +105,10 @@ function getPanelAbogado(){
 									"action": "modificar",
 									"oficina": el.idOficina,
 									"telefono": el.telefono,
-									"direccion": el.direccion
+									"direccion": el.direccion,
+									"encargado": el.encargado,
+									"latitud": el.latitud,
+									"longitud": el.longitud
 								}).append($("<i />", {
 									"class": "glyphicon glyphicon-pencil"
 								}))
@@ -111,7 +119,8 @@ function getPanelAbogado(){
 					});
 					
 					$("[action=modificar]").click(function(){
-						var el = $(this)
+						var el = $(this);
+						$("#panelModificar #txtEncargado").val(el.attr("encargado"));
 						$("#panelModificar #txtTelefono").val(el.attr("telefono"));
 						$("#panelModificar #txtDireccion").val(el.attr("direccion"));
 						$("#panelModificar #txtLatitud").val(el.attr("latitud"));
@@ -131,6 +140,9 @@ function getPanelAbogado(){
 			$("#frmAdd").validate({
 				debug: true,
 				rules: {
+					txtEncargado: {
+						required : true
+					},
 					txtLatitud: {
 						required : true
 					},
@@ -146,13 +158,14 @@ function getPanelAbogado(){
 				},
 				wrapper: 'span', 
 				messages: {
+					txtEncargado: "Es necesario un encargado del despacho",
 					txtLatitud: "Es necesario este valor",
 					txtLongitud: "Es necesario este valor",
 					txtDireccion: "Es necesario este valor",
 					txtTelefono: "Es necesario este valor"
 				},
 				submitHandler: function(form){
-					obj.updateOficina($("#id").val(), $("#txtDireccion").val(), $("#txtLatitud").val(), $("#txtLongitud").val(), $("#txtTelefono").val(), {
+					obj.updateOficina($("#id").val(), $("#txtDireccion").val(), $("#txtLatitud").val(), $("#txtLongitud").val(), $("#txtTelefono").val(), $("#txtEncargado").val(), {
 						after: function(result){
 							if (result.band == true){
 								alert("Datos actualizados");
@@ -166,3 +179,15 @@ function getPanelAbogado(){
 		});
 	}
 };
+
+
+function getPanelMiCuentaAbogado(){
+	navigator.camera.getPicture( function(){
+		alert("Ok");
+	}, function(){
+		alert("Error");
+	}, {
+		quality: 50,
+		destinationType: Camera.DestinationType.DATA_URL
+	});
+}

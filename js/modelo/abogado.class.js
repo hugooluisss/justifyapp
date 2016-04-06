@@ -16,14 +16,15 @@ TAbogado = function(){
 		}, "json");
 	}
 	
-	this.updateOficina = function(id, direccion, latitud, longitud, telefono, fn){
+	this.updateOficina = function(id, direccion, latitud, longitud, telefono, encargado, fn){
 		if (fn.before != undefined) fn.before();
 		$.post(server + 'index.php?mod=coficinas&action=add', {
 			"id": id,
 			"direccion": direccion,
 			"latitud": latitud,
 			"longitud": longitud,
-			"telefono": telefono
+			"telefono": telefono,
+			"encargado": encargado
 		}, function(data){
 			if (fn.after != undefined)
 				fn.after(data);
