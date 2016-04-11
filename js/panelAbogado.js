@@ -190,20 +190,16 @@ function getPanelMiCuentaAbogado(){
 		
 		$("#btnFotoPerfil").click(function(){
 			if (navigator.camera != undefined){
-				$("#mensajes").append("<b>¡¡¡ Upss !!!</b>" + " Cargando la cámara ").addClass("alert-info").fadeIn(1500);
-		        setTimeout(function() {
-		        	$("#mensajes").fadeOut(1500).removeClass("alert-info");
-		        }, 5000);
-		        
 				navigator.camera.getPicture(function(imageData) {
 						$("#fotoPerfil").attr("src", "data:image/jpeg;base64," + imageData);
+						$("#fotoPerfil").attr("src", imageData);
 						alert("Foto asignada");
 					}, function(message){
 						alert("Error: " + mensaje);
 					}, { 
 						quality: 50,
-						destinationType: Camera.DestinationType.FILE_URI,
-						sourceType: source
+						destinationType: navigator.camera.DestinationType.FILE_URI,
+						sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
 					});
 				/*
 				navigator.camera.getPicture(function(imageURI){
