@@ -206,12 +206,13 @@ function getPanelMiCuentaAbogado(){
 		$("#btnCamaraPerfil").click(function(){
 			if (navigator.camera != undefined){
 				navigator.camera.getPicture(function(imageURI){
+					alert(imageURI);
 					var options = new FileUploadOptions();
 					options.fileKey = "file";
 					options.fileName = imageURI.substr(imageURI.lastIndexOf('/')+1);
 					options.mimeType = "image/jpeg";
 					
-					$("#fotoPerfil").attr("src", imageData);
+					$("#fotoPerfil").attr("src", imageURI);
 					
 					var params = new Object();
 					params.id = abogado.getIdentificador();
