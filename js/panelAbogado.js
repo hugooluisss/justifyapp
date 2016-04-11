@@ -202,7 +202,7 @@ function getPanelMiCuentaAbogado(){
 					options.params = params;
 					
 					var ft = new FileTransfer();
-					ft.upload(imageURI, server + "mod=cusuarios&action=uploadImagenPerfil", function(r){
+					ft.upload(imageURI, server + "?mod=cusuarios&action=uploadImagenPerfil", function(r){
 							console.log("Code = " + r.responseCode);
 					        console.log("Response = " + r.response);
 					        console.log("Sent = " + r.bytesSent);
