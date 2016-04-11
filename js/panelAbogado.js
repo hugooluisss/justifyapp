@@ -204,6 +204,7 @@ function getPanelMiCuentaAbogado(){
 		});
 		
 		$("#btnCamaraPerfil").click(function(){
+			if (navigator.camera != undefined){
 				navigator.camera.getPicture(function(imageURI){
 					var options = new FileUploadOptions();
 					options.fileKey = "file";
