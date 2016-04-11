@@ -192,7 +192,7 @@ function getPanelMiCuentaAbogado(){
 			if (navigator.camera != undefined){
 				navigator.camera.getPicture(function(imageData) {
 						$("#fotoPerfil").src = "data:image/jpeg;base64," + imageData;
-						$("#fotoPerfil").attr("src", "data:image/jpeg;base64," + imageData);
+						//$("#fotoPerfil").attr("src", "data:image/jpeg;base64," + imageData);
 					}, function(message){
 						alert("Error: " + mensaje);
 					}, { 
