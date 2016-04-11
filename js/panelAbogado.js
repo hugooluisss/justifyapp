@@ -188,10 +188,9 @@ function getPanelMiCuentaAbogado(){
 		
 		$("#mensajes").hide();
 		
-		$("#btnFotoPerfil").click(function(){
+		$("#btnGaleriaPerfil").click(function(){
 			if (navigator.camera != undefined){
 				navigator.camera.getPicture(function(imageData) {
-						$("#fotoPerfil").attr("src", "data:image/jpeg;base64," + imageData);
 						$("#fotoPerfil").attr("src", imageData);
 						alert("Foto asignada");
 					}, function(message){
@@ -201,15 +200,20 @@ function getPanelMiCuentaAbogado(){
 						destinationType: navigator.camera.DestinationType.FILE_URI,
 						sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
 					});
-				/*
+			}
+		});
+		
+		$("#btnCamaraPerfil").click(function(){
 				navigator.camera.getPicture(function(imageURI){
 					var options = new FileUploadOptions();
 					options.fileKey = "file";
 					options.fileName = imageURI.substr(imageURI.lastIndexOf('/')+1);
 					options.mimeType = "image/jpeg";
 					
+					$("#fotoPerfil").attr("src", imageData);
+					
 					var params = new Object();
-					params.id = abogado.identificador();
+					params.id = abogado.getIdentificador();
 					
 					options.params = params;
 					
@@ -247,7 +251,7 @@ function getPanelMiCuentaAbogado(){
 				}, {
 					quality: 50,
 					destinationType: Camera.DestinationType.DATA_URL
-				});*/
+				});
 			}else{
 				$("#mensajes").append("<b>¡¡¡ Upss !!!</b>" + " No se cargó la cámara ").addClass("alert-danger").fadeIn(1500);
 		        setTimeout(function() {
