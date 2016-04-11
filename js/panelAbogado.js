@@ -190,6 +190,15 @@ function getPanelMiCuentaAbogado(){
 		
 		$("#btnFotoPerfil").click(function(){
 			if (navigator.camera != undefined){
+				navigator.camera.getPicture(function(imageData) {
+						var image = document.getElementById('myImage');
+						image.src = "data:image/jpeg;base64," + imageData;
+					}, function(message){
+						alert("Error: " + mensaje);
+					}, { 
+						quality: 50
+					});
+				/*
 				navigator.camera.getPicture(function(imageURI){
 					var options = new FileUploadOptions();
 					options.fileKey = "file";
@@ -235,7 +244,7 @@ function getPanelMiCuentaAbogado(){
 				}, {
 					quality: 50,
 					destinationType: Camera.DestinationType.DATA_URL
-				});
+				});*/
 			}else{
 				$("#mensajes").append("<b>¡¡¡ Upss !!!</b>" + " No se cargó la cámara ").addClass("alert-danger").fadeIn(1500);
 			        
