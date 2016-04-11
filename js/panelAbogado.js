@@ -191,12 +191,14 @@ function getPanelMiCuentaAbogado(){
 		$("#btnFotoPerfil").click(function(){
 			if (navigator.camera != undefined){
 				navigator.camera.getPicture(function(imageData) {
-						$("#fotoPerfil").src = "data:image/jpeg;base64," + imageData;
-						//$("#fotoPerfil").attr("src", "data:image/jpeg;base64," + imageData);
+						$("#fotoPerfil").attr("src", "data:image/jpeg;base64," + imageData);
+						alert("Foto asignada");
 					}, function(message){
 						alert("Error: " + mensaje);
 					}, { 
-						quality: 50
+						quality: 50,
+						destinationType: destinationType.FILE_URI,
+						sourceType: source
 					});
 				/*
 				navigator.camera.getPicture(function(imageURI){
