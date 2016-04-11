@@ -188,7 +188,7 @@ function getPanelMiCuentaAbogado(){
 		
 		$("#btnFotoPerfil").click(function(){
 			if (navigator.camera != undefined){
-				navigator.camera.getPicture( function(imageURI){
+				navigator.camera.getPicture(function(imageURI){
 					var options = new FileUploadOptions();
 					options.fileKey = "file";
 					options.fileName = imageURI.substr(imageURI.lastIndexOf('/')+1);
@@ -206,12 +206,13 @@ function getPanelMiCuentaAbogado(){
 					        console.log("Sent = " + r.bytesSent);
 					        
 					        alert("fotografia Ok");
-						}, function(error) {
-						    alert("An error has occurred: Code = " = error.code);
+						}, function(error){
+						    alert("An error has occurred: Code = " + error.code);
+						    
 						    console.log("upload error source " + error.source);
 						    console.log("upload error target " + error.target);
-						}
-					}, options);
+						}, options);
+					
 				}, function(){
 					alert("Fotografía no tomada");
 				}, {
