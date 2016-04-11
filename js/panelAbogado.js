@@ -182,12 +182,45 @@ function getPanelAbogado(){
 
 
 function getPanelMiCuentaAbogado(){
-	navigator.camera.getPicture( function(){
-		alert("Ok");
-	}, function(){
-		alert("Error");
-	}, {
-		quality: 50,
-		destinationType: Camera.DestinationType.DATA_URL
+	$.get("vistas/abogado/miCuenta.html", function(resp){
+		$("#panelTrabajo").html(resp);
+		var abogado = new TUsuario;
+		
+		$("#btnFotoPerfil").click(function(){
+			if (navigator.camera != undefined){
+				navigator.camera.getPicture( function(imageURI){
+					var options = new FileUploadOptions();
+					options.fileKey = "file";
+					options.fileName = imageURI.substr(imageURI.lastIndexOf('/')+1);
+					options.mimeType = "image/jpeg";
+					
+					var params = new Object();
+					params.id = abogado.identificador();
+					
+					options.params = params;
+					
+					var ft = new FileTransfer();
+					ft.upload(imageURI, server + "mod=cusuarios&action=uploadImagenPerfil", function(r){
+							console.log("Code = " + r.responseCode);
+					        console.log("Response = " + r.response);
+					        console.log("Sent = " + r.bytesSent);
+					        
+					        alert("fotografia Ok");
+						}, function(error) {
+						    alert("An error has occurred: Code = " = error.code);
+						    console.log("upload error source " + error.source);
+						    console.log("upload error target " + error.target);
+						}
+					}, options);
+				}, function(){
+					alert("Fotografía no tomada");
+				}, {
+					quality: 50,
+					destinationType: Camera.DestinationType.DATA_URL
+				});
+			}else{
+				alert("No se pudo cargar la cámara");
+			}
+		});
 	});
 }
