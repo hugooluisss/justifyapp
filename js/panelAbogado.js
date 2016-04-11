@@ -186,6 +186,8 @@ function getPanelMiCuentaAbogado(){
 		$("#panelTrabajo").html(resp);
 		var abogado = new TUsuario;
 		
+		$("#mensajes").hide();
+		
 		$("#btnFotoPerfil").click(function(){
 			if (navigator.camera != undefined){
 				navigator.camera.getPicture(function(imageURI){
@@ -205,8 +207,19 @@ function getPanelMiCuentaAbogado(){
 					        console.log("Response = " + r.response);
 					        console.log("Sent = " + r.bytesSent);
 					        
-					        alert("fotografia Ok");
+					        $("#mensajes").append("<b>¡¡¡ Listo !!!</b>Fotografía cargada con éxito " + r.responseCode).addClass("alert-success").fadeIn(1500);
+					        
+					        setTimeout(function() {
+					        	$("#mensajes").fadeOut(1500).removeClass("alert-success");
+					        }, 5000);
+					        
 						}, function(error){
+					        $("#mensajes").append("<b>¡¡¡ Danger !!!</b>" + " upload error target " + error.target).addClass("alert-danger").fadeIn(1500);
+					        
+					        setTimeout(function() {
+					        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
+					        }, 5000);
+					        
 						    alert("An error has occurred: Code = " + error.code);
 						    
 						    console.log("upload error source " + error.source);
@@ -214,13 +227,21 @@ function getPanelMiCuentaAbogado(){
 						}, options);
 					
 				}, function(){
-					alert("Fotografía no tomada");
+			        $("#mensajes").append("<b>¡¡¡ Upss !!!</b>" + " No se Pudo subir la imagen").addClass("alert-danger").fadeIn(1500);
+			        
+			        setTimeout(function() {
+			        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
+			        }, 5000);
 				}, {
 					quality: 50,
 					destinationType: Camera.DestinationType.DATA_URL
 				});
 			}else{
-				alert("No se pudo cargar la cámara");
+				$("#mensajes").append("<b>¡¡¡ Upss !!!</b>" + " No se cargó la cámara ").addClass("alert-danger").fadeIn(1500);
+			        
+		        setTimeout(function() {
+		        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
+		        }, 5000);
 			}
 		});
 	});
