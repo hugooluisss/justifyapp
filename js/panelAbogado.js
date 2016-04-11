@@ -197,7 +197,7 @@ function getPanelMiCuentaAbogado(){
 						alert("Error: " + mensaje);
 					}, { 
 						quality: 50,
-						destinationType: destinationType.FILE_URI,
+						destinationType: navigator.camera.DestinationType.FILE_URI,
 						sourceType: source
 					});
 				/*
