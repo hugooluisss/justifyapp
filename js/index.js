@@ -1,4 +1,7 @@
 $(document).ready(function(){
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+		WebView.setWebContentsDebuggingEnabled(true);
+		
 	var usuario = new TUsuario;
 	
 	if (usuario.isSesionIniciada()){
