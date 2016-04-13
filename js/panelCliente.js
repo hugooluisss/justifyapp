@@ -2,6 +2,11 @@ function getPanelCliente(){
 	$.get("vistas/cliente/index.html", function(resp){
 		$("#modulo").html(resp);
 		
+		$("#menuPrincipal a").click(function(){
+			$('#menuPrincipal').parent().removeClass("in");
+			$('#menuPrincipal').parent().attr("aria-expanded", false);
+		});
+		
 		//Opciones del menú
 		$("#menuPrincipal .salir").click(function(){
 			if(confirm("¿Seguro?")){
@@ -14,11 +19,16 @@ function getPanelCliente(){
 			}
 		});
 		
+		$("#menuPrincipal .miCuenta").click(function(){
+			getPanelMiCuentaCliente();
+		});
+		
 		getIndex();
 	});
 	
 	function getIndex(){
 		var usuario = new TUsuario;
+		$("#fotoPerfil").attr("src", usuario.getURIFotoPerfil());
 		
 		$("#spNombre").html(usuario.getNombre());
 		var mapa = new TMapa;
@@ -107,3 +117,142 @@ function getPanelCliente(){
 		});
 	};
 };
+
+function getPanelMiCuentaCliente(){
+	$.get("vistas/cliente/miCuenta.html", function(resp){
+		$("#panelTrabajo").html(resp);
+		
+		$("#mensajes").hide();
+		var usuario = new TUsuario;
+		var cliente = new TCliente;
+		cliente.getData({
+			after: function(datos){
+				$("#txtNombre").val(datos.nombre);
+				$("#txtTelefono").val(datos.telefono);
+				$("#txtCelular").val(datos.celular);
+			}
+		});
+		
+		$("#fotoPerfil").attr("src", usuario.getURIFotoPerfil());
+		
+		$("#btnGaleriaPerfil").click(function(){
+			if (navigator.camera != undefined){
+				navigator.camera.getPicture(function(imageData) {
+						$("#fotoPerfil").attr("src", imageData);
+						subirFotoPerfil(imageData);
+					}, function(message){
+						$("#mensajes").html("<b>¡¡¡ Upss !!!</b>" + " Ocurrió un error " + mensaje).addClass("alert-danger").fadeIn(1500);
+				        setTimeout(function() {
+				        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
+				        }, 5000);
+					}, { 
+						quality: 50,
+						destinationType: navigator.camera.DestinationType.FILE_URI,
+						sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+					});
+			}
+		});
+		
+		$("#btnCamaraPerfil").click(function(){
+			if (navigator.camera != undefined){
+				navigator.camera.getPicture(function(imageURI){
+					$("#fotoPerfil").attr("src", imageURI);
+					
+					subirFotoPerfil(imageURI);
+					
+				}, function(){
+			        $("#mensajes").html("<b>¡¡¡ Upss !!!</b>" + " No se Pudo subir la imagen").addClass("alert-danger").fadeIn(1500);
+			        
+			        setTimeout(function() {
+			        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
+			        }, 5000);
+				}, {
+					quality: 50,
+					destinationType: Camera.DestinationType.FILE_URI
+				});
+			}else{
+				$("#mensajes").html("<b>¡¡¡ Upss !!!</b>" + " No se cargó la cámara ").addClass("alert-danger").fadeIn(1500);
+		        setTimeout(function() {
+		        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
+		        }, 5000);
+			}
+		});
+		
+		$("#frmDatos").validate({
+			debug: false,
+			errorElement: 'div',
+			rules: {
+				txtNombre: "required",
+				txtTelefono: "required",
+				txtCelular: "required"
+			},
+			wrapper: 'span', 
+			messages: {
+				txtNombre: "Escribe el nombre",
+				txtTelefono: "Este campo es necesario",
+				txtCelular: "Este campo es necesario",
+			},
+			submitHandler: function(form){
+				var obj = new TCliente;
+				var cliente = new TUsuario;
+				
+				obj.guardarPerfil(cliente.getIdentificador(), $("#txtNombre").val(), $("#txtTelefono").val(), $("#txtCelular").val(), {
+					before: function(){
+						
+					},
+					after: function(result){
+						if (result.band != true){
+							$("#mensajes").html("<b>¡¡¡ Upss !!!</b>" + " Ocurrió un error al guardar los datos").addClass("alert-danger").fadeIn(1500);
+					        setTimeout(function() {
+					        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
+					        }, 5000);
+						}else{
+							$("#mensajes").html("<b>¡¡¡ Ok !!!</b>" + " Los datos se guardaron con éxito").addClass("alert-success").fadeIn(1500);
+					        setTimeout(function() {
+					        	$("#mensajes").fadeOut(1500).removeClass("alert-success");
+					        }, 5000);
+						}
+						
+					}
+				});
+			}
+		});
+	});
+	
+	function subirFotoPerfil(imageURI){
+		var usuario = new TUsuario;
+		var options = new FileUploadOptions();
+		
+		options.fileKey = "file";
+		options.fileName = imageURI.substr(imageURI.lastIndexOf('/')+1);
+		options.mimeType = "image/jpeg";
+		
+		var params = new Object();
+		params.identificador = usuario.getIdentificador();
+		
+		options.params = params;
+		
+		var ft = new FileTransfer();
+		ft.upload(imageURI, encodeURI(server + "?mod=cusuarios&action=uploadImagenPerfil"), function(r){
+				console.log("Code = " + r.responseCode);
+		        console.log("Response = " + r.response);
+		        console.log("Sent = " + r.bytesSent);
+		        
+		        $("#mensajes").html("<b>¡¡¡ Listo !!!</b>Fotografía cargada con éxito ").addClass("alert-success").fadeIn(1500);
+		        
+		        setTimeout(function() {
+		        	$("#mensajes").fadeOut(1500).removeClass("alert-success");
+		        }, 5000);
+		        
+			}, function(error){
+		        $("#mensajes").html("<b>¡¡¡ Error fatal !!!</b>" + " No se pudo subir la imagen al servidor " + error.target).addClass("alert-danger").fadeIn(1500);
+		        
+		        setTimeout(function() {
+		        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
+		        }, 5000);
+			    
+			    console.log("upload error source " + error.source);
+			    console.log("upload error target " + error.target);
+			}, options);
+	}
+}

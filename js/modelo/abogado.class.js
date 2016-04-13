@@ -58,7 +58,52 @@ TAbogado = function(){
 				fn.after(data);
 				
 			if (data.band == false)
-				console.log("Error al agregar la oficina");
+				console.log("Error al modificar los datos del perfil de usuario");
 		}, "json");
 	};
+	
+	this.getEspecialidades = function(fn){
+		if (fn.before != undefined) fn.before();
+		var usuario = new TUsuario;
+		
+		$.post(server + 'index.php?mod=cespecialidad&action=getLista', {
+			"id": usuario.getIdentificador()
+		}, function(resp){
+			if (fn.after != undefined) fn.after(resp);
+		}, "json");
+	};
+	
+	this.addEspecialidad = function(especialidad, fn){
+		if (fn.before != undefined) fn.before();
+		var usuario = new TUsuario;
+		
+		$.post(server + '?mod=cabogados&action=addEspecialidad', {
+			"abogado": usuario.getIdentificador(),
+			"especialidad": especialidad
+		}, function(data){
+			if (data.band == 'false')
+				console.log("Upps. Ocurrió un error al agregar la especialidad " + data.mensaje);
+				
+			if (fn.after != undefined)
+				fn.after(data);
+		}, "json");
+
+	}
+	
+	this.delEspecialidad = function(especialidad, fn){
+		if (fn.before != undefined) fn.before();
+		var usuario = new TUsuario;
+		
+		$.post(server + '?mod=cabogados&action=delEspecialidad', {
+			"abogado": usuario.getIdentificador(),
+			"especialidad": especialidad
+		}, function(data){
+			if (data.band == 'false')
+				console.log("Upps. Ocurrió un error al quitar la especialidad " + data.mensaje);
+				
+			if (fn.after != undefined)
+				fn.after(data);
+		}, "json");
+
+	}
 };

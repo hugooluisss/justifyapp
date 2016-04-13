@@ -24,13 +24,15 @@ function getPanelAbogado(){
 		});
 		
 		$("#menuPrincipal .oficinas").click(function(){
-			$("div[role=alert]").html("Espera un momento...").show(600);
 			getOficinas();
 		});
 		
 		$("#menuPrincipal .miCuenta").click(function(){
-			$("div[role=alert]").html("Espera un momento...").show(600);
 			getPanelMiCuentaAbogado();
+		});
+		
+		$("#menuPrincipal .categorias").click(function(){
+			getPanelEspecialidades();
 		});
 		
 		getIndex();
@@ -87,7 +89,6 @@ function getPanelAbogado(){
 				}
 			});
 			
-			
 			obj.getOficinas({
 				after: function(lista){
 					var tabla = $("#panelTrabajo .table tbody");
@@ -97,7 +98,7 @@ function getPanelAbogado(){
 						console.log(el.encargado);
 						var tr = $("<tr />").append(
 							$("<td />", {
-								text: el.telefono
+								text: el.encargado == null?"":el.encargado
 							})
 						).append(
 							$("<td />", {
@@ -139,6 +140,7 @@ function getPanelAbogado(){
 			});
 			
 			$("div[role=alert]").html("Espera un momento...").show(600);
+			$("#mensajes").hide();
 			
 			$("#frmAdd").validate({
 				debug: true,
@@ -171,10 +173,17 @@ function getPanelAbogado(){
 					obj.updateOficina($("#id").val(), $("#txtDireccion").val(), $("#txtLatitud").val(), $("#txtLongitud").val(), $("#txtTelefono").val(), $("#txtEncargado").val(), {
 						after: function(result){
 							if (result.band == true){
-								alert("Datos actualizados");
+								$("#mensajes").html("<b>¡¡¡ Ok !!!</b>" + " Datos guardados").addClass("alert-success").fadeIn(1500);
+					        setTimeout(function() {
+					        	$("#mensajes").fadeOut(1500).removeClass("alert-success");
+					        }, 5000);
 								getOficinas();
-							}else
-								alert("Ocurrió un error al guardar los datos");
+							}else{
+								$("#mensajes").html("<b>¡¡¡ Upss !!!</b>" + " Ocurrió un error al guardar los datos").addClass("alert-danger").fadeIn(1500);
+						        setTimeout(function() {
+						        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
+						        }, 5000);
+							}
 						}
 					});
 				}
@@ -207,7 +216,10 @@ function getPanelMiCuentaAbogado(){
 						$("#fotoPerfil").attr("src", imageData);
 						subirFotoPerfil(imageData);
 					}, function(message){
-						alert("Error: " + mensaje);
+						$("#mensajes").html("<b>¡¡¡ Upss !!!</b>" + " Ocurrió un error " + mensaje).addClass("alert-danger").fadeIn(1500);
+				        setTimeout(function() {
+				        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
+				        }, 5000);
 					}, { 
 						quality: 50,
 						destinationType: navigator.camera.DestinationType.FILE_URI,
@@ -262,10 +274,16 @@ function getPanelMiCuentaAbogado(){
 						
 					},
 					after: function(result){
-						if (result.band != true)
-							alert("Ocurrió un error al guardar los datos");
-						else{
-							alert("Los datos se guardaron con éxito");
+						if (result.band != true){
+							$("#mensajes").html("<b>¡¡¡ Upss !!!</b>" + " Ocurrió un error al guardar los datos").addClass("alert-danger").fadeIn(1500);
+					        setTimeout(function() {
+					        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
+					        }, 5000);
+						}else{
+							$("#mensajes").html("<b>¡¡¡ Ok !!!</b>" + " Los datos se guardaron con éxito").addClass("alert-success").fadeIn(1500);
+					        setTimeout(function() {
+					        	$("#mensajes").fadeOut(1500).removeClass("alert-success");
+					        }, 5000);
 						}
 						
 					}
@@ -281,7 +299,6 @@ function getPanelMiCuentaAbogado(){
 		
 		options.fileKey = "file";
 		options.fileName = imageURI.substr(imageURI.lastIndexOf('/')+1);
-		alert(imageURI.lastIndexOf('/')+1);
 		options.mimeType = "image/jpeg";
 		
 		var params = new Object();
@@ -295,7 +312,7 @@ function getPanelMiCuentaAbogado(){
 		        console.log("Response = " + r.response);
 		        console.log("Sent = " + r.bytesSent);
 		        
-		        $("#mensajes").html("<b>¡¡¡ Listo !!!</b>Fotografía cargada con éxito " + r.responseCode).addClass("alert-success").fadeIn(1500);
+		        $("#mensajes").html("<b>¡¡¡ Listo !!!</b>Fotografía cargada con éxito ").addClass("alert-success").fadeIn(1500);
 		        
 		        setTimeout(function() {
 		        	$("#mensajes").fadeOut(1500).removeClass("alert-success");
@@ -312,4 +329,69 @@ function getPanelMiCuentaAbogado(){
 			    console.log("upload error target " + error.target);
 			}, options);
 	}
+}
+
+
+
+
+function getPanelEspecialidades(){
+	$.get("vistas/abogado/especialidades.html", function(resp){
+		$("#panelTrabajo").html(resp);
+		
+		var tabla = $("#especialidades");
+		var usuario = new TAbogado;
+		usuario.getEspecialidades({
+			after: function(lista){
+				$.get("vistas/abogado/listaEspecialidad.html", function(resp){
+					$.each(lista, function(){
+						var el = this;
+						vista = $(resp);
+						
+						vista.find("label").text(el.nombre);
+						vista.find("label").attr("for", "el_" + el.idEspecialidad);
+						vista.find("input").val(el.idEspecialidad);
+						vista.find("input").attr("id", "el_" + el.idEspecialidad);
+						
+						vista.find("input").prop("checked", el.agregado == 'si');
+						
+						tabla.append(vista);
+					});
+					
+					$("input[type=checkbox]").change(function(){
+						var el = $(this);
+						var abogado = new TAbogado;
+						
+						if(el.prop("checked"))
+							abogado.addEspecialidad(el.val(), {
+								before: function(){
+									el.prop("disabled", true);
+								},
+								after: function(resp){
+									el.prop("disabled", false);
+									
+									if (resp.band != true){
+										alert("No se pudo agregar esta especialidad");
+										el.attr("checked", false);
+									}
+								}
+							});
+						else
+							abogado.delEspecialidad(el.val(), {
+								before: function(){
+									el.prop("disabled", true);
+								},
+								after: function(resp){
+									el.prop("disabled", false);
+									
+									if (resp.band != true){
+										alert("No se pudo quitar esta especialidad");
+										el.attr("checked", true);
+									}
+								}
+							});
+					});
+				});
+			}
+		});
+	});
 }

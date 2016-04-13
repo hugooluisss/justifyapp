@@ -1,0 +1,46 @@
+<div class="row">
+	<div class="col-xs-12">
+		<div class="thumbnail">
+			<img src="" id="fotoPerfil" />
+		</div>
+		<div class="caption">
+			<div id="mensajes" class="alert" role="alert"></div>
+			<div class="col-xs-6">
+				<button class="btn btn-primary btn-raised btn-block" id="btnCamaraPerfil" role="button"><span class="glyphicon glyphicon-camera" aria-hidden="true"></span> Cámara</button>
+			</div>
+			<div class="col-xs-6">
+				<button href="#" class="btn btn-primary btn-raised btn-block" id="btnGaleriaPerfil" role="button"><span class="glyphicon glyphicon-picture"></span> Galería</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<form role="form" id="frmDatos" class="form-horizontal" onsubmit="javascript: return false;">
+	<div class="box">
+		<div class="box-body">
+			<div class="form-group">
+				<label for="txtNombre" class="col-sm-2 control-label">Nombre</label>
+				<div class="col-sm-4">
+					<input type="text" id="txtNombre" name="txtNombre" autofocus="true" class="form-control" autocomplete="off" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="txtTelefono" class="col-sm-2 control-label">Teléfono</label>
+				<div class="col-sm-4">
+					<input type="text" id="txtTelefono" name="txtTelefono" class="form-control" autocomplete="off" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="txtCelular" class="col-sm-2 control-label">Celular</label>
+				<div class="col-sm-4">
+					<input type="text" id="txtCelular" name="txtCelular" class="form-control" autocomplete="off" />
+				</div>
+			</div>
+			<div class="row">
+					<div class="col-xs-6 col-xs-offset-6">
+						<input type="submit" id="btnSendRegistro" class="btn btn-success btn-raised btn-block" value="Guardar"/>
+					</div>
+				</div>
+		</div>
+	</div>
+</div>
