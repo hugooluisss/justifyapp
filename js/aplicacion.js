@@ -14,3 +14,12 @@ var goldStar = {
 	strokeColor: 'gold',
 	strokeWeight: 14
 };
+
+$(document).ready(function(){
+	//$("#div_carga").hide();
+	$(document).ajaxStart(function() {
+		$(this).show();
+	}).ajaxStop(function() {
+		$(this).hide();
+	});
+});

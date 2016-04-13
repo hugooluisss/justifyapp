@@ -15,7 +15,7 @@
 	</div>
 </div>
 
-<form role="form" id="frmAdd" class="form-horizontal" onsubmit="javascript: return false;">
+<form role="form" id="frmDatos" class="form-horizontal" onsubmit="javascript: return false;">
 	<div class="box">
 		<div class="box-body">
 			<div class="form-group">
@@ -25,17 +25,22 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="txtSobreMi" class="col-sm-2 control-label">Sobre mi</label>
+				<label for="txtSobreMi" class="col-sm-2 control-label">Sobre mi bufete</label>
 				<div class="col-sm-4">
 					<textarea id="txtSobreMi" name="txtSobreMi" class="form-control" rows="5"></textarea>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="txtCurriculum" class="col-sm-2 control-label">Curriculum</label>
+				<label for="txtCurriculum" class="col-sm-2 control-label">Curriculum vitae</label>
 				<div class="col-sm-4">
 					<textarea id="txtCurriculum" name="txtCurriculum" class="form-control" rows="5"></textarea>
 				</div>
 			</div>
+			<div class="row">
+					<div class="col-xs-6 col-xs-offset-6">
+						<input type="submit" id="btnSendRegistro" class="btn btn-success btn-raised btn-block" value="Guardar"/>
+					</div>
+				</div>
 		</div>
 	</div>
 </div>

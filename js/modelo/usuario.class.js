@@ -117,4 +117,8 @@ TUsuario = function(){
 			if (fn.after != undefined) fn.after(result);
 		}, "json");
 	}
+	
+	this.getURIFotoPerfil = function(){
+		return server + 'repositorio/imagenesUsuarios/img_' + self.getIdentificador() + '.jpg';
+	}
 };

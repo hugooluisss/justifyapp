@@ -33,4 +33,32 @@ TAbogado = function(){
 				console.log("Error al agregar la oficina");
 		}, "json");
 	};
+	
+	this.getData = function(fn){
+		if (fn.before != undefined) fn.before();
+		var usuario = new TUsuario;
+		
+		$.post(server + 'index.php?mod=cabogados&action=getData', {
+			"id": usuario.getIdentificador()
+		}, function(resp){
+			if (fn.after != undefined) fn.after(resp);
+		}, "json");
+	};
+	
+	this.guardarPerfil = function(id, nombre, sobreMi, curriculum, fn){
+		if (fn.before != undefined) fn.before();
+		
+		$.post(server + 'index.php?mod=cabogados&action=guardar', {
+			"id": id,
+			"nombre": nombre,
+			"sobreMi": sobreMi,
+			"curriculum": curriculum
+		}, function(data){
+			if (fn.after != undefined)
+				fn.after(data);
+				
+			if (data.band == false)
+				console.log("Error al agregar la oficina");
+		}, "json");
+	};
 };

@@ -3,6 +3,9 @@ function getPanelAbogado(){
 		$("#modulo").html(resp);
 		$("div[role=alert]").hide();
 		
+		var abogado = new TUsuario;
+		$("#fotoPerfil").attr("src", abogado.getURIFotoPerfil());
+		
 		//Opciones del menú
 		$("#menuPrincipal .salir").click(function(){
 			if(confirm("¿Seguro?")){
@@ -185,9 +188,18 @@ function getPanelMiCuentaAbogado(){
 	$.get("vistas/abogado/miCuenta.html", function(resp){
 		$("#panelTrabajo").html(resp);
 		
+		var objAbogado = new TAbogado;
+		objAbogado.getData({
+			after: function(resp){
+				$("#txtNombre").val(resp.nombre);
+				$("#txtCurriculum").val(resp.curriculum);
+				$("#txtSobreMi").val(resp.sobreMi);
+			}
+		});
+		
 		$("#mensajes").hide();
 		var abogado = new TUsuario;
-		$("#fotoPerfil").attr("src", server + 'repositorio/imagenesUsuario/img_' + abogado.getIdentificador() + '.jpg');
+		$("#fotoPerfil").attr("src", abogado.getURIFotoPerfil());
 		
 		$("#btnGaleriaPerfil").click(function(){
 			if (navigator.camera != undefined){
@@ -228,6 +240,39 @@ function getPanelMiCuentaAbogado(){
 		        }, 5000);
 			}
 		});
+		
+		$("#frmDatos").validate({
+			debug: false,
+			errorElement: 'div',
+			rules: {
+				txtNombre: "required",
+				txtSobreMi: "required"
+			},
+			wrapper: 'span', 
+			messages: {
+				txtNombre: "Escribe el nombre",
+				txtSobreMi: "Escribe algo sobre tu buffet"
+			},
+			submitHandler: function(form){
+				var obj = new TAbogado;
+				var abogado = new TUsuario;
+				
+				obj.guardarPerfil(abogado.getIdentificador(), $("#txtNombre").val(), $("#txtSobreMi").val(), $("#txtCurriculum").val(), {
+					before: function(){
+						
+					},
+					after: function(result){
+						if (result.band != true)
+							alert("Ocurrió un error al guardar los datos");
+						else{
+							alert("Los datos se guardaron con éxito");
+						}
+						
+					}
+				});
+			}
+		});
+
 	});
 	
 	function subirFotoPerfil(imageURI){
