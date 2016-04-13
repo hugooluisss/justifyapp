@@ -210,7 +210,7 @@ function getPanelMiCuentaAbogado(){
 					subirFotoPerfil(imageURI);
 					
 				}, function(){
-			        $("#mensajes").append("<b>¡¡¡ Upss !!!</b>" + " No se Pudo subir la imagen").addClass("alert-danger").fadeIn(1500);
+			        $("#mensajes").html("<b>¡¡¡ Upss !!!</b>" + " No se Pudo subir la imagen").addClass("alert-danger").fadeIn(1500);
 			        
 			        setTimeout(function() {
 			        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
@@ -220,7 +220,7 @@ function getPanelMiCuentaAbogado(){
 					destinationType: Camera.DestinationType.DATA_URL
 				});
 			}else{
-				$("#mensajes").append("<b>¡¡¡ Upss !!!</b>" + " No se cargó la cámara ").addClass("alert-danger").fadeIn(1500);
+				$("#mensajes").html("<b>¡¡¡ Upss !!!</b>" + " No se cargó la cámara ").addClass("alert-danger").fadeIn(1500);
 		        setTimeout(function() {
 		        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
 		        }, 5000);
@@ -234,6 +234,7 @@ function getPanelMiCuentaAbogado(){
 		
 		options.fileKey = "file";
 		options.fileName = imageURI.substr(imageURI.lastIndexOf('/')+1);
+		alert(imageURI.lastIndexOf('/')+1);
 		options.mimeType = "image/jpeg";
 		
 		var params = new Object();
@@ -247,14 +248,14 @@ function getPanelMiCuentaAbogado(){
 		        console.log("Response = " + r.response);
 		        console.log("Sent = " + r.bytesSent);
 		        
-		        $("#mensajes").append("<b>¡¡¡ Listo !!!</b>Fotografía cargada con éxito " + r.responseCode).addClass("alert-success").fadeIn(1500);
+		        $("#mensajes").html("<b>¡¡¡ Listo !!!</b>Fotografía cargada con éxito " + r.responseCode).addClass("alert-success").fadeIn(1500);
 		        
 		        setTimeout(function() {
 		        	$("#mensajes").fadeOut(1500).removeClass("alert-success");
 		        }, 5000);
 		        
 			}, function(error){
-		        $("#mensajes").append("<b>¡¡¡ Danger !!!</b>" + " upload error target " + error.target).addClass("alert-danger").fadeIn(1500);
+		        $("#mensajes").html("<b>¡¡¡ Danger !!!</b>" + " upload error target " + error.target).addClass("alert-danger").fadeIn(1500);
 		        
 		        setTimeout(function() {
 		        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
