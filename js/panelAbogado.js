@@ -184,7 +184,6 @@ function getPanelAbogado(){
 function getPanelMiCuentaAbogado(){
 	$.get("vistas/abogado/miCuenta.html", function(resp){
 		$("#panelTrabajo").html(resp);
-		var abogado = new TUsuario;
 		
 		$("#mensajes").hide();
 		
@@ -230,7 +229,9 @@ function getPanelMiCuentaAbogado(){
 	});
 	
 	function subirFotoPerfil(imageURI){
+		var abogado = new TUsuario;
 		var options = new FileUploadOptions();
+		
 		options.fileKey = "file";
 		options.fileName = imageURI.substr(imageURI.lastIndexOf('/')+1);
 		options.mimeType = "image/jpeg";
