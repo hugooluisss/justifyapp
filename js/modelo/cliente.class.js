@@ -44,4 +44,27 @@ TCliente = function(){
 				console.log("Error al modificar los datos del perfil de usuario");
 		}, "json");
 	};
+	
+	this.getEspecialidades = function(fn){
+		if (fn.before != undefined) fn.before();
+		var usuario = new TUsuario;
+		
+		$.get(server + 'index.php?mod=cespecialidad&action=getLista', function(resp){
+			if (fn.after != undefined) fn.after(resp);
+		}, "json");
+	};
+	
+	this.getOficinasEspecialidad = function(especialidad, fn){
+		if (fn.before != undefined) fn.before();
+		
+		var data = JSON.parse(this.sesion);
+		
+		$.post(server + '?mod=coficinas&action=listaOficinas', {
+			"id": especialidad
+		}, function(lista){
+			console.log("Se obtuvieron " + lista.length + " oficinas");
+			
+			if (fn.after != undefined) fn.after(lista);
+		}, "json");
+	}
 };

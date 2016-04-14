@@ -23,6 +23,10 @@ function getPanelCliente(){
 			getPanelMiCuentaCliente();
 		});
 		
+		$("#menuPrincipal .buscarPorEspecialidad").click(function(){
+			getBuscarPorEspecialidad();
+		});
+		
 		getIndex();
 	});
 	
@@ -255,4 +259,53 @@ function getPanelMiCuentaCliente(){
 			    console.log("upload error target " + error.target);
 			}, options);
 	}
+}
+
+function getBuscarPorEspecialidad(){
+	$.get("vistas/cliente/porEspecialidad.html", function(resp){
+		$("#panelTrabajo").html(resp);
+		var usuario = new TCliente;
+		usuario.getEspecialidades({
+			after: function(lista){
+				var tabla = $("#especialidades");
+				$.get("vistas/cliente/listaEspecialidad.html", function(resp){
+					$.each(lista, function(){
+						var el = this;
+						vista = $(resp);
+						
+						vista.find("[campo=nombre]").text(el.nombre);
+						vista.find("[campo=descripcion]").text(el.descripcion);
+						vista.attr("idespecialidad", el.idEspecialidad).attr("nombre", el.nombre);
+						vista.find(".badge").html(el.total);
+						
+						vista.click(function(){
+							head = $(this);
+							
+							$.get("vistas/cliente/oficina.html", function(tplOficina){
+								usuario.getOficinasEspecialidad(head.attr("idespecialidad"), {
+									before: function(){
+										head.find(".abogados").text("Espere mientras actualizamos la lista");
+									},
+									after: function(resp){
+										head.find(".abogados").text("");
+										var ofi = tplOficina;
+										$.each(resp, function(){
+											var elemento = this;
+											var oficina = $(ofi);
+											
+											oficina.find("[campo=nombre]").text(elemento.nombre);
+											oficina.find("img").prop("src", server + "repositorio/imagenesUsuarios/img_" + elemento.idUsuario + ".jpg");
+											head.find(".abogados").append(oficina);
+										});
+									}
+								});
+							});
+						});
+						
+						tabla.append(vista);
+					});
+				});
+			}
+		});
+	});
 }

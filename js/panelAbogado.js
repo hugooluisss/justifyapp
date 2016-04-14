@@ -223,7 +223,10 @@ function getPanelMiCuentaAbogado(){
 					}, { 
 						quality: 50,
 						destinationType: navigator.camera.DestinationType.FILE_URI,
-						sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+						sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+						targetwidth: 300,
+						targetHeight: 200,
+						saveToPhotoAlbum: false
 					});
 			}
 		});
@@ -243,7 +246,10 @@ function getPanelMiCuentaAbogado(){
 			        }, 5000);
 				}, {
 					quality: 50,
-					destinationType: Camera.DestinationType.FILE_URI
+					destinationType: Camera.DestinationType.FILE_URI,
+					targetwidth: 300,
+					targetHeight: 200,
+					saveToPhotoAlbum: false
 				});
 			}else{
 				$("#mensajes").html("<b>¡¡¡ Upss !!!</b>" + " No se cargó la cámara ").addClass("alert-danger").fadeIn(1500);
