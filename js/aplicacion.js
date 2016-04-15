@@ -1,5 +1,5 @@
-//var server = 'http://192.168.0.111/justify/';
-var server = 'http://localhost/justify/';
+var server = 'http://192.168.0.111/justify/';
+//var server = 'http://localhost/justify/';
 //var server = 'http://panel.justify.com.mx/';
 //var server = 'http://192.168.2.4/justify/';
 
