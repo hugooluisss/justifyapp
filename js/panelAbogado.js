@@ -195,9 +195,6 @@ function getPanelAbogado(){
 
 function getPanelMiCuentaAbogado(){
 	$.get("vistas/abogado/miCuenta.html", function(resp){
-		if (super != undefined)
-			super.clearCache();
-			
 		$("#panelTrabajo").html(resp);
 		
 		var objAbogado = new TAbogado;

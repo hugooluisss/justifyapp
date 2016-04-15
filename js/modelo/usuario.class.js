@@ -119,6 +119,6 @@ TUsuario = function(){
 	}
 	
 	this.getURIFotoPerfil = function(){
-		return server + 'repositorio/imagenesUsuarios/img_' + self.getIdentificador() + '.jpg';
+		return server + 'repositorio/imagenesUsuarios/img_' + self.getIdentificador() + '.jpg?' + Math.random();
 	}
 };
