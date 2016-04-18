@@ -114,19 +114,19 @@ function getBuscarPorZona(){
 				});
 			}
 		});
-	});
-	
-	$("#btnEnviarMensaje").click(function(){
-		var obj = new TMensaje;
-		obj.sendMensaje($("#btnEnviarMensaje").attr("abogado"), $("#txtMensaje").val(), {
-			before: function(){
-				$("#btnEnviarMensaje").prop("disabled", true);
-			},
-			after: function(result){
-				$("#btnEnviarMensaje").prop("disabled", false);
-				if (result.band == true)
-					$("#winDetalle").modal("hide");
-			}
+		
+		$("#btnEnviarMensaje").click(function(){
+			var obj = new TMensaje;
+			obj.add($("#btnEnviarMensaje").attr("abogado"), $("#txtMensaje").val(), {
+				before: function(){
+					$("#btnEnviarMensaje").prop("disabled", true);
+				},
+				after: function(result){
+					$("#btnEnviarMensaje").prop("disabled", false);
+					if (result.band == true)
+						$("#winDetalle").modal("hide");
+				}
+			});
 		});
 	});
 }
@@ -278,6 +278,9 @@ function getBuscarPorEspecialidad(){
 			after: function(lista){
 				var tabla = $("#especialidades");
 				$.get("vistas/cliente/listaEspecialidad.html", function(resp){
+					$("#btnRegresar").click(function(){
+						getBuscarPorEspecialidad();
+					});
 					$.each(lista, function(){
 						var el = this;
 						
@@ -290,6 +293,7 @@ function getBuscarPorEspecialidad(){
 							vista.find(".badge").html(el.total);
 							
 							vista.click(function(){
+								$(".btn-group").show();
 								getOficinas($(this));
 								
 								
@@ -343,29 +347,29 @@ function getBuscarPorEspecialidad(){
 				});
 			});
 		}
-		
-		$("#btnEnviarMensaje").click(function(){
-			if ($("#txtMensaje").val() == ''){
-				alert("Escribe un mensaje");
-				$("#txtMensaje").focus();
-			}else{
-				var mensaje = new TMensaje();
-				
-				mensaje.add($("#winDetalle #btnEnviarMensaje").attr("abogado"), $("#txtMensaje").val(), {
-					before: function(){
-						$("#winDetalle #btnEnviarMensaje").prop("disabled", true);
-					},
-					after: function(resp){
-						$("#winDetalle #btnEnviarMensaje").prop("disabled", false);
-						
-						if(resp.band == true){
-							alert("El mensaje se envió con éxito, muy pronto se pondrá en contacto contigo");
-							$("#winDetalle").modal("hide");
-						}else
-							alert("No se pudo enviar el mensaje");
-					}
-				});
-			}
-		});
+	});
+	
+	$("#btnEnviarMensaje").click(function(){
+		if ($("#txtMensaje").val() == ''){
+			alert("Escribe un mensaje");
+			$("#txtMensaje").focus();
+		}else{
+			var mensaje = new TMensaje();
+			
+			mensaje.add($("#winDetalle #btnEnviarMensaje").attr("abogado"), $("#txtMensaje").val(), {
+				before: function(){
+					$("#winDetalle #btnEnviarMensaje").prop("disabled", true);
+				},
+				after: function(resp){
+					$("#winDetalle #btnEnviarMensaje").prop("disabled", false);
+					
+					if(resp.band == true){
+						alert("El mensaje se envió con éxito, muy pronto se pondrá en contacto contigo");
+						$("#winDetalle").modal("hide");
+					}else
+						alert("No se pudo enviar el mensaje");
+				}
+			});
+		}
 	});
 }
