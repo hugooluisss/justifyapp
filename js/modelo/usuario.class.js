@@ -103,22 +103,34 @@ TUsuario = function(){
 		return data.identificador;
 	}
 	
-	this.sendMensaje = function(abogado, cliente, mensaje){
+	this.getURIFotoPerfil = function(){
+		return server + 'repositorio/imagenesUsuarios/img_' + self.getIdentificador() + '.jpg?' + Math.random();
+	};
+	
+	this.getNewMensajes = function(fn){
 		if (fn.before != undefined) fn.before();
 		
-		$.post(server + 'index.php?mod=clogin&action=login', {
-			"abogado": abogado,
-			"cliente": cliente,
-			"mensaje": mensaje
+		$.post(server + 'index.php?mod=cmensajes&action=getNewMensajes', {
+			"id": self.getIdentificador()
 		}, function(result){
 			if (result.band == false)
-				console.log("No se pudo guardar el mensaje");
+				console.log("No se recuperaron los mensajes");
 				
 			if (fn.after != undefined) fn.after(result);
 		}, "json");
-	}
+	};
 	
-	this.getURIFotoPerfil = function(){
-		return server + 'repositorio/imagenesUsuarios/img_' + self.getIdentificador() + '.jpg?' + Math.random();
-	}
+	this.getRemitentesMensajes = function(fn){
+		if (fn.before != undefined) fn.before();
+		
+		$.post(server + 'index.php?mod=cmensajes&action=getListaRemitentes', {
+			"id": self.getIdentificador()
+		}, function(result){
+			if (result.band == false)
+				console.log("No se recuperaron los remitentes");
+				
+			if (fn.after != undefined) fn.after(result);
+		}, "json");
+
+	};
 };

@@ -42,6 +42,7 @@ function getPanelAbogado(){
 		var usuario = new TUsuario;
 		
 		$("#spNombre").html(usuario.getNombre());
+		getRemitentes();
 	};
 	
 	function getOficinas(){
