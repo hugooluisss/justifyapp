@@ -83,6 +83,7 @@ function getBuscarPorZona(){
 								});
 								
 								vista.find("[action=detalle]").click(function(){
+									$("#winDetalle").find(".img-thumbnail").prop("src", server + "repositorio/imagenesUsuarios/img_" + el.idUsuario + ".jpg?" + Math.random());
 									$("#winDetalle #nombre").html(el.nombre);
 									$("#winDetalle #direccion").html(el.direccion);
 									$("#winDetalle #email").html(el.email);

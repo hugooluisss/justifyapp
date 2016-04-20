@@ -39,6 +39,7 @@
 		<script src="js/modelo/abogado.class.js"></script>
 		<script src="js/modelo/cliente.class.js"></script>
 		<script src="js/modelo/mensaje.class.js"></script>
+		<script src="js/modelo/suscripcion.class.js"></script>
 		<script src="js/mapa.class.js"></script>
 		<script src="js/login.js"></script>
 		<script src="js/registro.js"></script>
@@ -48,6 +49,8 @@
 		<script src="js/panelMensajes.js"></script>
 		
 		<script src="js/index.js"></script>
+		<script type="text/javascript" src="https://conektaapi.s3.amazonaws.com/v0.3.2/js/conekta.js"></script>
+
 		
 		<script src="librerias/less.min.js" type="text/javascript"></script>
 		
@@ -64,6 +67,85 @@
 					</div>
 					<div class="modal-body">
 						Mensajes
+					</div>
+				</div>
+		    </div>
+		</div>
+		
+		<div id="winConekta" class="modal container fade" tabindex="-1" aria-labelledby="myModalLabel" data-toogle="modal">
+		    <div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Comprar suscripción</h4>
+					</div>
+					<div class="modal-body">
+						<form role="form" id="frmSuscripcion" class="form-horizontal" onsubmit="javascript: return false;">
+							<div class="box">
+								<div class="box-body">
+									<div class="form-group">
+										<label for="txtPaquete" class="col-xs-3 control-label">Suscripción</label>
+										<div class="col-xs-12">
+											<select id="selSuscripcion" name="selSuscripcion" class="form-control">
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="txtPrecio" class="col-xs-3 control-label">Precio</label>
+										<div class="col-xs-12">
+											<input type="text" id="txtPrecio" name="txtPrecio" disabled="true" class="form-control" autocomplete="off" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="txtTarjeta" class="col-xs-3 control-label">Tarjeta</label>
+										<div class="col-xs-12">
+											<input type="text" id="txtTarjeta" name="txtTarjeta" class="form-control" autocomplete="off" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="txtNombre" class="col-xs-3 control-label">Nombre</label>
+										<div class="col-sm-12">
+											<input type="text" id="txtNombre" name="txtNombre" class="form-control" autocomplete="off" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="selMes" class="col-xs-7 control-label">Fecha de Experiración</label>
+										<div class="col-xs-6">
+											<select id="selMes" name="selMes" class="form-control">
+												<option value="01">Enero
+												<option value="02">Febrero
+												<option value="03">Marzo
+												<option value="04">Abril
+												<option value="05">Mayo
+												<option value="06">Junio
+												<option value="07">Julio
+												<option value="08">Agosto
+												<option value="09">Septiembre
+												<option value="10">Octubre
+												<option value="11">Noviembre
+												<option value="12">Diciembre
+											</select>
+										</div>
+										<div class="col-xs-6">
+											<select id="selAnio" name="selAnio" class="form-control">
+												
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="txtCodigo" class="col-xs-4 control-label">Código de seguridad</label>
+										<div class="col-xs-8">
+											<input type="text" id="txtCodigo" name="txtCodigo" class="form-control" autocomplete="off" />
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-12">
+											<input type="submit" id="btnPagar" class="btn btn-danger btn-raised btn-block" value="Pagar"/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
 		    </div>

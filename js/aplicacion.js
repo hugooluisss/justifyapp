@@ -23,3 +23,41 @@ $(document).ready(function(){
 		$(this).hide();
 	});
 });
+
+var TConekta = function(){
+	self = this;
+	this.publica = "key_FLvB3CMbt6MfrgTs5y7nvxw";
+	
+	this.doPago = function(tarjeta, nombre, anio, mes, codigo, paquete, fn){
+		if (fn.before != undefined) fn.before();
+		
+		Conekta.setPublishableKey(self.publica);
+		var tokenParams = {
+			"card": {
+				"number": $("#txtTarjeta").val(),
+				"name": $("#txtNombre").val(),
+				"exp_year": $("#selAnio").val(),
+				"exp_month": $("#selMes").val(),
+				"cvc": $("#txtCodigo").val()
+			}
+		};
+		
+		Conekta.token.create(tokenParams, function(token){
+			var usuario = new TUsuario;
+			
+			$.post(server + '?mod=cpublicidad&action=pago', {
+				"token": token.id,
+				"abogado": usuario.getIdentificador(),
+				"paquete": paquete
+			}, function(resp) {
+				console.log(resp);
+				if (fn.after != undefined) fn.after(resp);
+			});
+			
+		}, function(resp){
+			console.log("No se pudo obtener el token de la transacción");
+			
+			if (fn.error != undefined) fn.error(resp.message_to_purchaser);
+		});
+	};
+}

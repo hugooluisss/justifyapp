@@ -43,6 +43,111 @@ function getPanelAbogado(){
 		
 		$("#spNombre").html(usuario.getNombre());
 		getRemitentes();
+		
+		var suscripcion = new TSuscripcion;
+		suscripcion.getSuscripcion({
+			after: function(suscripcion){
+				if (suscripcion.band == true){
+					var tr = $("<tr />").append(
+						$('<td />', {text: suscripcion.nombre})
+					).append($('<td />', {text: suscripcion.inicio})
+					).append($('<td />', {text: suscripcion.fin}));
+				}else{
+					var tr = $("<tr />").append(
+						$("<td />", {colspan: 3, text: "No tienes un servicio de publicidad contratado"})
+					);
+					
+					var btnPlan = $('<btn/>', {class: "btn btn-danger btn-sm btn-block", text: "Adquirir suscripción"});
+					$(".table").parent().append(btnPlan);
+					
+					btnPlan.click(function(){
+						$("#txtPrecio").val($("#selSuscripcion option:selected").attr("precio"));
+						$("#winConekta").modal();
+					});
+				}
+				
+				
+				$(".table").append(tr);
+			}
+		});
+		
+		suscripcion.getPlanes({
+			after: function(planes){
+				$.each(planes, function(i, plan){
+					$("#selSuscripcion").append($("<option />", {value: plan.idPaquete, text: plan.nombre, precio: plan.precio}));
+				});
+				
+				$("#selSuscripcion option:first-children").prop("selected", true);
+			}
+		});
+		
+		$("#selSuscripcion").change(function(){
+			$("#txtPrecio").val($("#selSuscripcion option:selected").attr("precio"));
+		});
+		
+		
+		fecha = new Date;
+		for (paso = 0; paso < 10; paso++)
+			$("#selAnio").append($("<option />", {value: fecha.getFullYear() + paso, text: fecha.getFullYear() + paso}));
+			
+		$("#frmSuscripcion").validate({
+			debug: true,
+			rules: {
+				txtTarjeta: {
+					required : true
+				},
+				txtCodigo: {
+					required : true
+				},
+				txtNombre: {
+					required: true
+				},
+				selMes: {
+					required : true
+				},
+				selAnio: {
+					required : true
+				},
+				selPaquete:{
+					required : true
+				}
+			},
+			wrapper: 'span', 
+			messages: {
+				txtTarjeta: "Escribe el número de tarjeta",
+				txtCodigo: "Escribe el código de seguridad",
+				selMes: "Selecciona el mes en que expira tu tarjeta",
+				selAnio: "Selecciona el año en el que expira tu tarjeta",
+				selPaquete: "Selecciona un paquete",
+				txtNombre: "Escribe el nombre que tiene impreso la tarjeta"
+			},
+			submitHandler: function(form){
+				//Se inicia con la generación de un token
+				var conecta = new TConekta;
+				conecta.doPago($("#txtTarjeta").val(), $("#txtNombre").val(), $("#selAnio").val(), $("#selMes").val(), $("#txtCodigo").val(), $("#selSuscripcion").val(), {
+					before: function(){
+						$("#btnPagar").prop("disabled", true);
+					},
+					after: function(resp){
+						$("#btnPagar").prop("disabled", false);
+						if (resp.band == false)
+							alert(resp.mensaje);
+						else{
+							alert("El pago se realizó con éxito");
+							
+							$("#frmSuscripcion")[0].reset();
+							getPanelAbogado();
+							$("#winConekta").modal("hide");
+						}	
+						
+					},
+					error: function(resp){
+						$("#btnPagar").prop("disabled", false);
+						alert(resp);
+					}
+				});
+			}
+		});
 	};
 	
 	function getOficinas(){
