@@ -1,6 +1,6 @@
 //var server = 'http://192.168.0.111/justify/';
-//var server = 'http://localhost/justify/';
-var server = 'http://panel.justify.com.mx/';
+var server = 'http://localhost/justify/';
+//var server = 'http://panel.justify.com.mx/';
 //var server = 'http://192.168.2.4/justify/';
 
 var key_google = "AIzaSyAFa9dJnYA73gbJSdoery99NTOzUgbdL3w";
@@ -26,7 +26,7 @@ $(document).ready(function(){
 
 var TConekta = function(){
 	self = this;
-	this.publica = "key_FLvB3CMbt6MfrgTs5y7nvxw";
+	this.publica = "key_QerMuaZim2Fv6PQzxLpbMcQ";
 	
 	this.doPago = function(tarjeta, nombre, anio, mes, codigo, paquete, fn){
 		if (fn.before != undefined) fn.before();
