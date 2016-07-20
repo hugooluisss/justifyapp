@@ -16,7 +16,7 @@ $(document).ready(function(){
 				setInterval(getNewMensajes, 60000);
 			break;
 			default:
-				alert("No sabemos que eres " + usuario.isSesionIniciada());
+				alertify.error("No sabemos que eres " + usuario.isSesionIniciada());
 		}
 	}else{
 		loadLogin();

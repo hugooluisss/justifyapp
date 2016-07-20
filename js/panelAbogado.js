@@ -8,14 +8,16 @@ function getPanelAbogado(){
 		
 		//Opciones del menú
 		$("#menuPrincipal .salir").click(function(){
-			if(confirm("¿Seguro?")){
-				var obj = new TUsuario;
-				obj.logout({
-					after: function(){
-						location.reload(true);
-					}
-				});
-			}
+			alertify.confirm("¿Seguro?", function(e){
+				if(e){
+					var obj = new TUsuario;
+					obj.logout({
+						after: function(){
+							location.reload(true);
+						}
+					});
+				}
+			});
 		});
 		
 		$("#menuPrincipal a").click(function(){
@@ -131,9 +133,9 @@ function getPanelAbogado(){
 					after: function(resp){
 						$("#btnPagar").prop("disabled", false);
 						if (resp.band == false)
-							alert(resp.mensaje);
+							alertify.error(resp.mensaje);
 						else{
-							alert("El pago se realizó con éxito");
+							alertify.error("El pago se realizó con éxito");
 							
 							$("#frmSuscripcion")[0].reset();
 							getPanelAbogado();
@@ -143,7 +145,7 @@ function getPanelAbogado(){
 					},
 					error: function(resp){
 						$("#btnPagar").prop("disabled", false);
-						alert(resp);
+						alertify.error(resp);
 					}
 				});
 			}
@@ -168,7 +170,7 @@ function getPanelAbogado(){
 							$("div[role=alert]").html("Te estamos ubicando dentro del mapa...").show();
 						},
 						after: function(){
-							$("div[role=alert]").html("Listo").delay(5000).hide(600);
+							alertify.success("Listo");
 						},
 						sucedio: function(position){
 							$("#txtLatitud").val(position.coords.latitude);
@@ -245,7 +247,7 @@ function getPanelAbogado(){
 				}
 			});
 			
-			$("div[role=alert]").html("Espera un momento...").show(600);
+			alertify.log("Espera un momento..."); 
 			$("#mensajes").hide();
 			
 			$("#frmAdd").validate({
@@ -279,16 +281,10 @@ function getPanelAbogado(){
 					obj.updateOficina($("#id").val(), $("#txtDireccion").val(), $("#txtLatitud").val(), $("#txtLongitud").val(), $("#txtTelefono").val(), $("#txtEncargado").val(), {
 						after: function(result){
 							if (result.band == true){
-								$("#mensajes").html("<b>¡¡¡ Ok !!!</b>" + " Datos guardados").addClass("alert-success").fadeIn(1500);
-					        setTimeout(function() {
-					        	$("#mensajes").fadeOut(1500).removeClass("alert-success");
-					        }, 5000);
+								alertify.success("<b>¡¡¡ Ok !!!</b>" + " Datos guardados");
 								getOficinas();
 							}else{
-								$("#mensajes").html("<b>¡¡¡ Upss !!!</b>" + " Ocurrió un error al guardar los datos").addClass("alert-danger").fadeIn(1500);
-						        setTimeout(function() {
-						        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
-						        }, 5000);
+								alertify.error("<b>¡¡¡ Upss !!!</b>" + " Ocurrió un error al guardar los datos");
 							}
 						}
 					});
@@ -322,10 +318,7 @@ function getPanelMiCuentaAbogado(){
 						$("#fotoPerfil").attr("src", imageData);
 						subirFotoPerfil(imageData);
 					}, function(message){
-						$("#mensajes").html("<b>¡¡¡ Upss !!!</b>" + " Ocurrió un error " + mensaje).addClass("alert-danger").fadeIn(1500);
-				        setTimeout(function() {
-				        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
-				        }, 5000);
+						alertify.error("<b>¡¡¡ Upss !!!</b>" + " Ocurrió un error " + mensaje);
 					}, { 
 						quality: 50,
 						destinationType: navigator.camera.DestinationType.FILE_URI,
@@ -345,11 +338,7 @@ function getPanelMiCuentaAbogado(){
 					subirFotoPerfil(imageURI);
 					
 				}, function(){
-			        $("#mensajes").html("<b>¡¡¡ Upss !!!</b>" + " No se Pudo subir la imagen").addClass("alert-danger").fadeIn(1500);
-			        
-			        setTimeout(function() {
-			        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
-			        }, 5000);
+					alertify.error("<b>¡¡¡ Upss !!!</b>" + " No se Pudo subir la imagen");
 				}, {
 					quality: 50,
 					destinationType: Camera.DestinationType.FILE_URI,
@@ -358,10 +347,7 @@ function getPanelMiCuentaAbogado(){
 					saveToPhotoAlbum: false
 				});
 			}else{
-				$("#mensajes").html("<b>¡¡¡ Upss !!!</b>" + " No se cargó la cámara ").addClass("alert-danger").fadeIn(1500);
-		        setTimeout(function() {
-		        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
-		        }, 5000);
+				alertify.error("<b>¡¡¡ Upss !!!</b>" + " No se cargó la cámara");
 			}
 		});
 		
@@ -387,15 +373,9 @@ function getPanelMiCuentaAbogado(){
 					},
 					after: function(result){
 						if (result.band != true){
-							$("#mensajes").html("<b>¡¡¡ Upss !!!</b>" + " Ocurrió un error al guardar los datos").addClass("alert-danger").fadeIn(1500);
-					        setTimeout(function() {
-					        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
-					        }, 5000);
+							alertify.error("<b>¡¡¡ Upss !!!</b>" + " Ocurrió un error al guardar los datos");
 						}else{
-							$("#mensajes").html("<b>¡¡¡ Ok !!!</b>" + " Los datos se guardaron con éxito").addClass("alert-success").fadeIn(1500);
-					        setTimeout(function() {
-					        	$("#mensajes").fadeOut(1500).removeClass("alert-success");
-					        }, 5000);
+							alertify.success("<b>¡¡¡ Upss !!!</b>" + " Los datos se guardaron con éxito");
 						}
 						
 					}
@@ -423,20 +403,10 @@ function getPanelMiCuentaAbogado(){
 				console.log("Code = " + r.responseCode);
 		        console.log("Response = " + r.response);
 		        console.log("Sent = " + r.bytesSent);
-		        
-		        $("#mensajes").html("<b>¡¡¡ Listo !!!</b>Fotografía cargada con éxito ").addClass("alert-success").fadeIn(1500);
-		        
-		        setTimeout(function() {
-		        	$("#mensajes").fadeOut(1500).removeClass("alert-success");
-		        }, 5000);
-		        
+		        alertify.success("<b>¡¡¡ Listo !!!</b>Fotografía cargada con éxito ");
 			}, function(error){
-		        $("#mensajes").html("<b>¡¡¡ Error fatal !!!</b>" + " No se pudo subir la imagen al servidor " + error.target).addClass("alert-danger").fadeIn(1500);
+				alertify.error("<b>¡¡¡ Error fatal !!!</b>" + " No se pudo subir la imagen al servidor " + error.target);
 		        
-		        setTimeout(function() {
-		        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
-		        }, 5000);
-			    
 			    console.log("upload error source " + error.source);
 			    console.log("upload error target " + error.target);
 			}, options);
@@ -482,7 +452,7 @@ function getPanelEspecialidades(){
 									el.prop("disabled", false);
 									
 									if (resp.band != true){
-										alert("No se pudo agregar esta especialidad");
+										alertify.error("No se pudo agregar esta especialidad");
 										el.attr("checked", false);
 									}
 								}
@@ -496,7 +466,7 @@ function getPanelEspecialidades(){
 									el.prop("disabled", false);
 									
 									if (resp.band != true){
-										alert("No se pudo quitar esta especialidad");
+										alertify.error("No se pudo quitar esta especialidad");
 										el.attr("checked", true);
 									}
 								}

@@ -16,6 +16,7 @@ var goldStar = {
 };
 
 $(document).ready(function(){
+	$("#modulo").css("min-height", (screen.height - 50) + "px");
 	//$("#div_carga").hide();
 	$(document).ajaxStart(function() {
 		$(this).show();

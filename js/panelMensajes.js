@@ -44,7 +44,7 @@ function panelMensajes(remitente){
 						$("#txtMensaje").val("");
 						traerMensajes();
 					}else
-						alert("Ocurrió un error al enviar su mensaje");
+						alertify.error("Ocurrió un error al enviar su mensaje");
 				}
 			});
 		});

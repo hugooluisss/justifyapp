@@ -2,7 +2,7 @@
 @import "funciones.less";
 
 .navbar-grey{
-	background: @mdc-grey-800;
+	background: #8B2727;
 }
 
 .nav-tabs{
@@ -12,13 +12,39 @@
 }
 
 
-#modulo > .container{
-	margin-top: 70px;
-	margin-bottom: 80px;
+.btn-primary{
+	background: url("../images/bg.jpg");
 }
 
-#panelTrabajo{
-	margin-top: 0px;
+#modulo{
+	&.login{
+		background: url("../images/bg.jpg") #8cc63f;
+	}
+	
+	#panelTrabajo{
+		margin-top: 80px;
+		margin-bottom: 80px;
+	}
+	
+	#login{
+		a{
+			color: white;
+		}
+		margin-top: 40px;
+		height: 100%;
+		
+		.form-control-feedback{
+			color: white;
+		}
+		
+		.form-group input{
+			color: white
+		}
+		
+		input, textarea, label{
+			color: white
+		}
+	}
 }
 
 /*Pantalla de peticiones*/
@@ -48,5 +74,54 @@
 		background-color: #fff;
 		padding: 10px 15px;
 		border: 1px solid #ddd;
+	}
+}
+
+
+.barraNavegacion{
+	color: white;
+	a{
+		color: white;
+	}
+	
+	.navbar-header{
+		background: url("../images/bg.jpg");
+		
+		.navbar-toggle{
+			background: url("../images/bg.jpg");
+			font-size: 12px;
+			color: white;
+		}
+		
+		.navbar-center{
+			margin-top: 15px;
+			float: left;
+		}
+	}
+	
+	.navbar-collapse{
+		background: url("../images/bg.jpg");
+		width: 100%;
+		
+		img{
+			margin-top: 10px;
+			width: 80%;
+		}
+		
+		.navbar-nav > li > a{
+			border-bottom: dotted 1px #8cc63f;
+			&:first-child{
+				border-top: dotted 1px #8cc63f;	
+			}
+			&:hover, &:focus{
+				background: @mdc-red-500;
+			}
+		}
+	}
+	
+	.navbar-brand{
+		img{
+			width: 60px;
+		}
 	}
 }

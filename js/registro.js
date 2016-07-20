@@ -6,8 +6,11 @@ function panelRegistro(){
 		$("#txtEmail").focus();
 		
 		$("#btnReset").click(function(){
-			if (confirm("¿Seguro?"))
-				location.reload(true);
+			alertify.confirm("¿Seguro?", function (e) {
+				if (e) {
+					location.reload(true);
+				}
+			}); 
 		});
 		
 		$("#frmAdd").validate({
@@ -49,17 +52,17 @@ function panelRegistro(){
 					},
 					after: function(result){
 						if (result.band != true)
-							alert("Ocurrió un error al guardar los datos");
+							alertify.error("Ocurrió un error al guardar los datos"); 
 						else{
 							$("#id").val(result.id);
 							
 							obj.setPass(result.id, $("#txtPass").val(), {
 								after: function(resp){
 									if (resp.band){
-										alert("Su registro ha sido completado");
+										alertify.success("Su registro ha sido completado"); 
 										location.reload(true);
 									}else
-										alert("Ocurrió un problema al registrar sus datos");
+										alertify.error("Ocurrió un problema al registrar sus datos"); 
 								}
 							});
 						}

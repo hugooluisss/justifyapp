@@ -1,6 +1,7 @@
 function loadLogin(){
 	$.get("vistas/login.html", function(resp){
 		$("#modulo").html(resp);
+		$("#modulo").addClass("login");
 		
 		$("#txtUsuario").focus();
 			
@@ -31,17 +32,16 @@ function loadLogin(){
 				
 				obj.login($("#txtUsuario").val(), $("#txtPass").val(), {
 					before: function(){
-						
+						$("#frmLogin").find("[type=submit]").prop("disabled", true);
 					},
 					after: function(data){
-						if (data.band == false){
-							$("div[role=alert]").html("Nombre de usuario y contraseña inválidos").show(600);
-							$("div[role=alert]").delay(5000).hide(600);
-						}else{
+						$("#frmLogin").find("[type=submit]").prop("disabled", false);
+						if (data.band == false)
+							alertify.error("Nombre de usuario y contraseña inválidos");
+						else{
 							//Hay que verificar el perfil de usuario
 							if (data.datos.tipo == "1"){
-								$("div[role=alert]").html("El rol de administrador no es válido en esta versión del sistema").show(600);
-								$("div[role=alert]").delay(5000).hide(600);
+								alertify.error("El rol de administrador no es válido en esta versión del sistema");
 							}else
 								location.reload(true);
 						}
@@ -51,6 +51,7 @@ function loadLogin(){
 		});
 		
 		$("#btnSendRegistro").click(function(){
+			$("#modulo").removeClass("login");
 			panelRegistro();
 		});
 	});

@@ -9,14 +9,16 @@ function getPanelCliente(){
 		
 		//Opciones del menú
 		$("#menuPrincipal .salir").click(function(){
-			if(confirm("¿Seguro?")){
-				var obj = new TUsuario;
-				obj.logout({
-					after: function(){
-						location.reload(true);
-					}
-				});
-			}
+			alertify.confirm("¿Seguro?", function(e){
+				if(e){
+					var obj = new TUsuario;
+					obj.logout({
+						after: function(){
+							location.reload(true);
+						}
+					});
+				}
+			});
 		});
 		
 		$("#menuPrincipal .miCuenta").click(function(){
@@ -54,15 +56,14 @@ function getBuscarPorZona(){
 		$("#mapa").css('width', '100%');
 		$("#mapa").css('height', '300px');
 		
-		$("div[role=alert]").html("Se está cargando el mapa, espera un momento...").show(600);
+		alertify.log("Se está cargando el mapa, espera un momento...");
 		
 		mapa.inicializar($("#mapa")[0]);
 		mapa.getUbicacion({
 			before: function(){
-				$("div[role=alert]").html("Te estamos ubicando dentro del mapa...");
+				alertify.log("Te estamos ubicando dentro del mapa...");
 			},
 			after: function(){
-				$("div[role=alert]").delay(5000).hide(600);
 			},
 			sucedio: function(position){
 				var cliente = new TCliente;
@@ -155,10 +156,7 @@ function getPanelMiCuentaCliente(){
 						$("#fotoPerfil").attr("src", imageData);
 						subirFotoPerfil(imageData);
 					}, function(message){
-						$("#mensajes").html("<b>¡¡¡ Upss !!!</b>" + " Ocurrió un error " + mensaje).addClass("alert-danger").fadeIn(1500);
-				        setTimeout(function() {
-				        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
-				        }, 5000);
+						alertify.error("<b>¡¡¡ Upss !!!</b>" + " Ocurrió un error " + mensaje);
 					}, { 
 						quality: 50,
 						destinationType: navigator.camera.DestinationType.FILE_URI,
@@ -175,20 +173,13 @@ function getPanelMiCuentaCliente(){
 					subirFotoPerfil(imageURI);
 					
 				}, function(){
-			        $("#mensajes").html("<b>¡¡¡ Upss !!!</b>" + " No se Pudo subir la imagen").addClass("alert-danger").fadeIn(1500);
-			        
-			        setTimeout(function() {
-			        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
-			        }, 5000);
+					alertify.error("<b>¡¡¡ Upss !!!</b>" + " No se Pudo subir la imagen");
 				}, {
 					quality: 50,
 					destinationType: Camera.DestinationType.FILE_URI
 				});
 			}else{
-				$("#mensajes").html("<b>¡¡¡ Upss !!!</b>" + " No se cargó la cámara ").addClass("alert-danger").fadeIn(1500);
-		        setTimeout(function() {
-		        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
-		        }, 5000);
+				alertify.error("<b>¡¡¡ Upss !!!</b>" + " No se cargó subir la imagen");
 			}
 		});
 		
@@ -216,15 +207,9 @@ function getPanelMiCuentaCliente(){
 					},
 					after: function(result){
 						if (result.band != true){
-							$("#mensajes").html("<b>¡¡¡ Upss !!!</b>" + " Ocurrió un error al guardar los datos").addClass("alert-danger").fadeIn(1500);
-					        setTimeout(function() {
-					        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
-					        }, 5000);
+							alertify.error("<b>¡¡¡ Upss !!!</b>" + " Ocurrió un error al guardar los datos");
 						}else{
-							$("#mensajes").html("<b>¡¡¡ Ok !!!</b>" + " Los datos se guardaron con éxito").addClass("alert-success").fadeIn(1500);
-					        setTimeout(function() {
-					        	$("#mensajes").fadeOut(1500).removeClass("alert-success");
-					        }, 5000);
+							alertify.success("<b>¡¡¡ Ok !!!</b>" + " Los datos se guardaron con éxito");
 						}
 						
 					}
@@ -252,19 +237,12 @@ function getPanelMiCuentaCliente(){
 		        console.log("Response = " + r.response);
 		        console.log("Sent = " + r.bytesSent);
 		        
-		        $("#mensajes").html("<b>¡¡¡ Listo !!!</b>Fotografía cargada con éxito ").addClass("alert-success").fadeIn(1500);
+		        alertify.success("<b>¡¡¡ Listo !!!</b>" + " Fotografía cargada con éxito");
 		        
-		        setTimeout(function() {
-		        	$("#mensajes").fadeOut(1500).removeClass("alert-success");
-		        }, 5000);
 		        
 			}, function(error){
-		        $("#mensajes").html("<b>¡¡¡ Error fatal !!!</b>" + " No se pudo subir la imagen al servidor " + error.target).addClass("alert-danger").fadeIn(1500);
+				alertify.error("<b>¡¡¡ Error fatal !!!</b>" + " No se pudo subir la imagen al servidor " + error.target);
 		        
-		        setTimeout(function() {
-		        	$("#mensajes").fadeOut(1500).removeClass("alert-danger");
-		        }, 5000);
-			    
 			    console.log("upload error source " + error.source);
 			    console.log("upload error target " + error.target);
 			}, options);
@@ -352,7 +330,7 @@ function getBuscarPorEspecialidad(){
 	
 	$("#btnEnviarMensaje").click(function(){
 		if ($("#txtMensaje").val() == ''){
-			alert("Escribe un mensaje");
+			alertify.error("Escribe un mensaje");
 			$("#txtMensaje").focus();
 		}else{
 			var mensaje = new TMensaje();
@@ -365,10 +343,10 @@ function getBuscarPorEspecialidad(){
 					$("#winDetalle #btnEnviarMensaje").prop("disabled", false);
 					
 					if(resp.band == true){
-						alert("El mensaje se envió con éxito, muy pronto se pondrá en contacto contigo");
-						$("#winDetalle").modal("hide");
+						alertify.log("El mensaje se envió con éxito, muy pronto se pondrá en contacto contigo"); 
+						
 					}else
-						alert("No se pudo enviar el mensaje");
+						alertify.error("No se pudo enviar el mensaje"); 
 				}
 			});
 		}
