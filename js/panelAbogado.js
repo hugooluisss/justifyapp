@@ -164,37 +164,41 @@ function getPanelAbogado(){
 			mapa.inicializar($("#mapa")[0]);
 			
 			$("#btnPosicionActual").click(function(){
-				if (confirm("¿Seguro de querer tomar la posición actual como la de la oficina?")){
-					mapa.getUbicacion({
-						before: function(){
-							$("div[role=alert]").html("Te estamos ubicando dentro del mapa...").show();
-						},
-						after: function(){
-							alertify.success("Listo");
-						},
-						sucedio: function(position){
-							$("#txtLatitud").val(position.coords.latitude);
-							$("#txtLongitud").val(position.coords.longitude);
-							
-							mapa.getDireccion(position.coords.latitude, position.coords.longitude, {
-								ok: function(results){
-									if ($("#txtDireccion").val() != results[1].formatted_address){
-										if(confirm("El servidor encontró que la dirección es diferente, ¿desea asignarla?... " + results[1].formatted_address))
-											$("#txtDireccion").val(results[1].formatted_address);
+				alertify.confirm("¿Seguro de querer tomar la posición actual como la de la oficina?", function(e){
+					if(e){
+						mapa.getUbicacion({
+							before: function(){
+								alertify.log("Te estamos ubicando dentro del mapa...");
+							},
+							after: function(){
+								alertify.success("Listo");
+							},
+							sucedio: function(position){
+								$("#txtLatitud").val(position.coords.latitude);
+								$("#txtLongitud").val(position.coords.longitude);
+								
+								mapa.getDireccion(position.coords.latitude, position.coords.longitude, {
+									ok: function(results){
+										if ($("#txtDireccion").val() != results[1].formatted_address){
+											alertify.confirm("El servidor encontró que la dirección es diferente, ¿desea asignarla?... " + results[1].formatted_address, function(e){
+												if(e)
+													$("#txtDireccion").val(results[1].formatted_address);
+											});
+										}
 									}
-								}
-							});
-							
-							var marker = new google.maps.Marker({
-								position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
-								map: mapa.map,
-								title: 'Oficina'
-							});
-							
-							$("#txtTelefono").focus();
-						}
-					});
-				}
+								});
+								
+								var marker = new google.maps.Marker({
+									position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+									map: mapa.map,
+									title: 'Oficina'
+								});
+								
+								$("#txtTelefono").focus();
+							}
+						});
+					}
+				});
 			});
 			
 			obj.getOficinas({

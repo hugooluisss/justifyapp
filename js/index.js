@@ -7,13 +7,13 @@ $(document).ready(function(){
 				getPanelAbogado();
 				getNewMensajes();
 				
-				setInterval(getNewMensajes, 60000);
+				setInterval(getNewMensajes, 120000);
 			break;
 			case '3':
 				getPanelCliente();
 				getNewMensajes();
 				
-				setInterval(getNewMensajes, 60000);
+				setInterval(getNewMensajes, 120000);
 			break;
 			default:
 				alertify.error("No sabemos que eres " + usuario.isSesionIniciada());
