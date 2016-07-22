@@ -1,8 +1,10 @@
 @import "md/material-design-color-palette.less";
 @import "funciones.less";
 
+@color-fondo: #4b1a21;
+@color-fondo2: #5e2129;
 .navbar-grey{
-	background: #8B2727;
+	background: @color-fondo;
 }
 
 .nav-tabs{
@@ -13,37 +15,24 @@
 
 
 .btn-primary{
-	background: url("../images/bg.jpg");
+	background: @color-fondo;
+	border: @color-fondo2;
+	
+	&:hover{
+		background: @color-fondo2;
+		border: @color-fondo;
+	}
 }
 
 #modulo{
-	&.login{
-		background: url("../images/bg.jpg") #8cc63f;
-	}
-	
+	margin-top: 0px;
 	#panelTrabajo{
 		margin-top: 80px;
-		margin-bottom: 80px;
 	}
 	
 	#login{
-		a{
-			color: white;
-		}
-		margin-top: 40px;
+		margin-top: 80px;
 		height: 100%;
-		
-		.form-control-feedback{
-			color: white;
-		}
-		
-		.form-group input{
-			color: white
-		}
-		
-		input, textarea, label{
-			color: white
-		}
 	}
 }
 
@@ -77,18 +66,23 @@
 	}
 }
 
+nav.navbar{
+	a{
+		color: white;
+	}
+}
+
 
 .barraNavegacion{
-	color: white;
 	a{
 		color: white;
 	}
 	
 	.navbar-header{
-		background: url("../images/bg.jpg");
+		background: @color-fondo;
 		
 		.navbar-toggle{
-			background: url("../images/bg.jpg");
+			background: @color-fondo2;
 			font-size: 12px;
 			color: white;
 		}
@@ -100,7 +94,7 @@
 	}
 	
 	.navbar-collapse{
-		background: url("../images/bg.jpg");
+		background: @color-fondo;
 		width: 100%;
 		
 		img{
@@ -110,7 +104,7 @@
 		
 		.navbar-nav > li > a{
 			&:hover, &:focus{
-				background: @mdc-red-500;
+				background: @color-fondo2;
 			}
 		}
 	}
@@ -119,5 +113,13 @@
 		img{
 			width: 60px;
 		}
+	}
+}
+
+.navbar-fixed-bottom{
+	.btn-default{
+		background: @color-fondo;
+		border: none;
+		color: white;
 	}
 }
